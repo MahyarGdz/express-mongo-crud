@@ -1,0 +1,7 @@
+{
+  "watch": ["src", ".env"],
+  "events": {
+    "start": "clear"
+  },
+  "exec": "node -r ts-node/register --env-file=.env ./src/server.ts"
+}
