@@ -1,12 +1,14 @@
 import express, { Application } from "express";
 import compression from "compression";
 import cors from "cors";
+import morgan from "morgan";
 import rateLimit from "express-rate-limit";
-import { IAppOptions } from "../../common/interfaces/IAppOptions";
+import { IAppOptions } from "../common/interfaces/IAppOptions";
+import { apiRouter } from "./routers/api.routes";
+import { errorHandler, notFoundHandler } from "./handler/app.errorHandler";
 
 class ExpressApp {
-  private app: Application;
-  private port: number;
+  app: Application;
   private static instance: ExpressApp;
   private options: IAppOptions = {
     cors: { origin: true, optionsSuccessStatus: 204, credentials: true },
@@ -28,14 +30,14 @@ class ExpressApp {
     return ExpressApp.instance;
   }
 
-  initApp(): ExpressApp {
+  init(): ExpressApp {
     if (!this.app) {
       this.app = express();
     }
     return this;
   }
 
-  plugMiddlewares(): ExpressApp {
+  plug(): ExpressApp {
     /**
      * remove x-powerd-by for security reason
      */
@@ -48,6 +50,12 @@ class ExpressApp {
      * compress the response payload
      */
     this.app.use(compression());
+
+    /**
+     * log the incomign request
+     */
+    this.app.use(morgan("common"));
+
     /**
      * check the request origin and response to allowed origin
      */
@@ -58,15 +66,21 @@ class ExpressApp {
      * prevent spam request or bruteforce attack
      */
     this.app.use("/api", rateLimit(this.options.rate));
+    /**
+     * attach router
+     */
+    this.app.use("/api", apiRouter);
 
     return this;
   }
 
   catchError(): ExpressApp {
-    this.app.use();
-    this.app.use();
+    this.app.use(notFoundHandler);
+    this.app.use(errorHandler);
     return this;
   }
 }
 
-export { ExpressApp };
+const expressApp = ExpressApp.get().init().plug().catchError().app;
+
+export { expressApp as Application };

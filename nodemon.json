@@ -1,5 +1,6 @@
 {
   "watch": ["src", ".env"],
+  "ext": "ts,json",
   "events": {
     "start": "clear"
   },
