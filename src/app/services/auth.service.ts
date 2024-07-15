@@ -50,7 +50,11 @@ class AuthSerivce {
   public async login(data: LoginDto) {
     const admin = await this.adminModel.findOne({ email: data.email });
     if (!admin || !admin.comparePassword(data.password)) throw new BadRequestError("email or password is incorrect");
-    if (!admin.comparePassword(data.password)) throw new BadRequestError("email or password is incorrect");
+
+    const passMatch = await admin.comparePassword(data.password);
+    console.log(passMatch);
+
+    if (!passMatch) throw new BadRequestError("email or password is incorrect");
 
     const token = this.tokenService.generateToken({ sub: admin._id as string });
 
