@@ -70,7 +70,6 @@ class AuthSerivce {
   public jwt = async (payload: AuthTokenPayload, done: VerifiedCallback) => {
     try {
       const admin = await this.adminModel.findOne({ _id: payload.sub }, { password: 0 });
-      console.log(admin);
 
       if (!admin) {
         return done(null, false);
