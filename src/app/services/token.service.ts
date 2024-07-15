@@ -1,10 +1,8 @@
 import jwt, { TokenExpiredError } from "jsonwebtoken";
 import { Logger } from "../../logging/logger";
 import { jwtExpiredErr } from "../../common/types/app.Errors";
+import { AuthTokenPayload } from "../../common/types/tokenPayload";
 
-export type AuthTokenPayload = {
-  sub: string;
-};
 const logger = new Logger();
 
 class TokenService {

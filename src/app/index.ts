@@ -6,6 +6,7 @@ import rateLimit from "express-rate-limit";
 import { IAppOptions } from "../common/interfaces/IAppOptions";
 import { apiRouter } from "./routers/api.routes";
 import { errorHandler, notFoundHandler } from "./handler/app.errorHandler";
+import { Authenticate } from "./utils/authenticate";
 
 class ExpressApp {
   app: Application;
@@ -66,6 +67,12 @@ class ExpressApp {
      * prevent spam request or bruteforce attack
      */
     this.app.use("/api", rateLimit(this.options.rate));
+
+    /**
+     * initalize passport to handle jwt authorization
+     */
+    this.app.use(Authenticate.init());
+    Authenticate.plug();
     /**
      * attach router
      */

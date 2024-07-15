@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import BaseController from "../../common/base/controller";
-import { CategoryService } from "../services/category";
+import { CategoryService } from "../services/category.service";
 
 class CategoryController extends BaseController {
   private static instance: CategoryController;
