@@ -27,5 +27,5 @@ class AuthController extends BaseController {
   }
   //   public async logout(req: Request, res: Response) {}
 }
-const authCtrl = AuthController.get();
-export { authCtrl as AuthController };
+const instance = AuthController.get();
+export { instance as AuthController };

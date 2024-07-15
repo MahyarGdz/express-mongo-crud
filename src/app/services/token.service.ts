@@ -37,5 +37,5 @@ class TokenService {
   }
 }
 
-const tknSrv = TokenService.get();
-export { tknSrv as TokenService };
+const instance = TokenService.get();
+export { instance as TokenService };

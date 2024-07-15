@@ -2,7 +2,7 @@ import { Model, Types, isValidObjectId } from "mongoose";
 import { BadRequestError, NotFoundError } from "../../common/types/app.Errors";
 import { ICategory } from "../models/Abstraction/ICategory";
 import category from "../models/category";
-import { createCategoryDTO } from "../DTO/createCategory.dto";
+import { createCategoryDTO } from "../DTO/category/createCategory.dto";
 
 class CategoryService {
   private static instance: CategoryService;
@@ -42,6 +42,6 @@ class CategoryService {
   }
 }
 
-const ctgSrvc = CategoryService.get();
+const instance = CategoryService.get();
 
-export { ctgSrvc as CategoryService };
+export { instance as CategoryService };

@@ -2,7 +2,7 @@ import { Model, Types, isValidObjectId } from "mongoose";
 import { IBlog } from "../models/Abstraction/IBlog";
 import blog from "../models/blog";
 import { BadRequestError, NotFoundError } from "../../common/types/app.Errors";
-import { createBlogDTO } from "../DTO/createBlog.dto";
+import { createBlogDTO } from "../DTO/blog/createBlog.dto";
 
 class BlogService {
   private static instance: BlogService;
@@ -41,6 +41,6 @@ class BlogService {
   }
 }
 
-const blgSrvc = BlogService.get();
+const instance = BlogService.get();
 
-export { blgSrvc as BlogService };
+export { instance as BlogService };

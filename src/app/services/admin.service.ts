@@ -2,7 +2,7 @@ import { Model, Types, isValidObjectId } from "mongoose";
 import { BadRequestError, NotFoundError } from "../../common/types/app.Errors";
 import { IAdmin } from "../models/Abstraction/IAdmin";
 import admin from "../models/admin";
-import { createAdminDTO } from "../DTO/createAdmin.dto";
+import { createAdminDTO } from "../DTO/admin/createAdmin.dto";
 import { IRole } from "../models/Abstraction/IRole";
 import role from "../models/role";
 import { RoleEnum } from "../../common/enums/Role.enum";
@@ -52,6 +52,6 @@ class AdminService {
   }
 }
 
-const admSrvc = AdminService.get();
+const instance = AdminService.get();
 
-export { admSrvc as AdminService };
+export { instance as AdminService };
