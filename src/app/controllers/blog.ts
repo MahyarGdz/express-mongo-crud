@@ -43,6 +43,6 @@ class BlogController extends BaseController {
   }
 }
 
-const blgCntrl = BlogController.get();
+const instance = BlogController.get();
 
-export { blgCntrl as BlogController };
+export { instance as BlogController };

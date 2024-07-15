@@ -80,5 +80,5 @@ class AuthSerivce {
   };
 }
 
-const authSrv = AuthSerivce.get();
-export { authSrv as AuthSerivce };
+const instance = AuthSerivce.get();
+export { instance as AuthSerivce };

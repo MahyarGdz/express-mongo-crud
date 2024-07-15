@@ -43,6 +43,6 @@ class AdminController extends BaseController {
   }
 }
 
-const admCntrl = AdminController.get();
+const instance = AdminController.get();
 
-export { admCntrl as AdminController };
+export { instance as AdminController };

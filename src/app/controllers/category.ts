@@ -43,6 +43,6 @@ class CategoryController extends BaseController {
   }
 }
 
-const ctgCntrl = CategoryController.get();
+const instance = CategoryController.get();
 
-export { ctgCntrl as CategoryController };
+export { instance as CategoryController };
