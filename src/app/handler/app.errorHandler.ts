@@ -10,7 +10,9 @@ function notFoundHandler(_req: Request, _res: Response, _next: NextFunction) {
 }
 // eslint-disable-next-line no-unused-vars
 function errorHandler(err: Error, req: Request, res: Response, _next: NextFunction) {
-  logger.error(`[${req.ip}] - ${req.method} ${req.path} - ${res.statusCode}`, { ...err, stack: err.stack });
+  res.on("finish", () => {
+    logger.error(`[${req.ip}] - ${req.method} ${req.path} - ${res.statusCode}`, { ...err, stack: err.stack });
+  });
 
   const message = err instanceof ApiError ? err.message : "somthing went wrong please try again later",
     code = err instanceof ApiError ? err.code : 500,
