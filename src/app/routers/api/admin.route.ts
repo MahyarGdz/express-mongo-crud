@@ -5,9 +5,9 @@ import { Guard } from "../../middlewares/guard.middleware";
 
 const router = Router();
 
-router.get("/", Guard.auth(), asyncWrapper(AdminController.getAll));
-router.get("/:id", Guard.auth(), asyncWrapper(AdminController.getOne));
-router.post("/", Guard.auth(), asyncWrapper(AdminController.create));
-router.patch("/:id", Guard.auth(), asyncWrapper(AdminController.update));
+router.get("/", Guard.auth(), Guard.can(["read"]), asyncWrapper(AdminController.getAll));
+router.get("/:id", Guard.auth(), Guard.can(["read"]), asyncWrapper(AdminController.getOne));
+router.post("/", Guard.auth(), Guard.can(["create"]), asyncWrapper(AdminController.create));
+router.patch("/:id", Guard.auth(), Guard.can(["create", "update"]), asyncWrapper(AdminController.update));
 
 export { router as adminRouter };
