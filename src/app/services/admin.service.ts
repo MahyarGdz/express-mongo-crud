@@ -21,12 +21,12 @@ class AdminService {
   }
   public async getAll() {
     //get all admins
-    return await this.adminModel.find({});
+    return await this.adminModel.find({}, { password: 0 });
   }
   public async getOne(id: string) {
     //get one admin with its id and send it back to response
     if (!isValidObjectId(id)) throw new BadRequestError("the id is not valid");
-    const admin = await this.adminModel.findOne({ _id: new Types.ObjectId(id) });
+    const admin = await this.adminModel.findOne({ _id: new Types.ObjectId(id) }, { password: 0 });
     if (!admin) throw new NotFoundError("the admin not found by given id");
     return admin;
   }

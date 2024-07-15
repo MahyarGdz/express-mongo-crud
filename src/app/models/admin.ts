@@ -25,11 +25,11 @@ adminSchema.pre<IAdmin>("save", async function (next) {
 
 adminSchema
   .pre("findOne", function (next) {
-    this.populate({ path: "role", select: { _id: 0, password: 0 } });
+    this.populate({ path: "role", select: { _id: 0 } });
     next();
   })
   .pre("find", function (next) {
-    this.populate({ path: "role", select: { _id: 0, password: 0 } });
+    this.populate({ path: "role", select: { _id: 0 } });
     next();
   });
 
