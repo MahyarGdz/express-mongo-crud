@@ -8,9 +8,13 @@ import { IRole } from "../models/Abstraction/IRole";
 import { RoleEnum } from "../../common/enums/Role.enum";
 import { LoginDto } from "../DTO/auth/login.dto";
 import { BadRequestError } from "../../common/types/app.Errors";
+import { AuthTokenPayload } from "../../common/types/tokenPayload";
+import { VerifiedCallback } from "passport-jwt";
+import { Logger } from "../../logging/logger";
 
 class AuthSerivce {
   private static instance: AuthSerivce;
+  private logger = new Logger();
   private tokenService = TokenService;
   private adminModel: Model<IAdmin> = AdminModel;
   private roleModel: Model<IRole> = RoleModel;
@@ -52,7 +56,6 @@ class AuthSerivce {
     if (!admin || !admin.comparePassword(data.password)) throw new BadRequestError("email or password is incorrect");
 
     const passMatch = await admin.comparePassword(data.password);
-    console.log(passMatch);
 
     if (!passMatch) throw new BadRequestError("email or password is incorrect");
 
@@ -63,6 +66,18 @@ class AuthSerivce {
       token,
     };
   }
+
+  public jwt = async (payload: AuthTokenPayload, done: VerifiedCallback) => {
+    try {
+      const admin = await this.adminModel.findById(payload.sub);
+      if (!admin) {
+        return done(null, false);
+      }
+    } catch (error) {
+      this.logger.error("Error happen in jwt service in auth service", error);
+      done(error, false);
+    }
+  };
 }
 
 const authSrv = AuthSerivce.get();

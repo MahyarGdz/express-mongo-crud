@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { BlogService } from "../services/blog";
+import { BlogService } from "../services/blog.service";
 import BaseController from "../../common/base/controller";
 
 class BlogController extends BaseController {
