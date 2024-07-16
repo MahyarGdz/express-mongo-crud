@@ -9,7 +9,7 @@ const router = Router();
 router.use(UploadSerive.init());
 router.get("/", asyncWrapper(BlogController.getAll));
 router.get("/:id", asyncWrapper(BlogController.getOne));
-router.post("/upload", Guard.auth(), Guard.can(["create"]), UploadSerive.single("image"), asyncWrapper(BlogController.upload));
+router.post("/upload/:id", Guard.auth(), Guard.can(["create"]), UploadSerive.single("image"), asyncWrapper(BlogController.upload));
 router.post("/", Guard.auth(), Guard.can(["create"]), asyncWrapper(BlogController.create));
 router.patch("/:id", Guard.auth(), Guard.can(["read", "update"]), asyncWrapper(BlogController.update));
 

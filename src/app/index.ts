@@ -8,6 +8,8 @@ import { apiRouter } from "./routers/api.routes";
 import { errorHandler, notFoundHandler } from "./handler/app.errorHandler";
 import { Authenticate } from "./utils/authenticate";
 import { customMorganFormat, stream } from "../logging/morgan";
+import { join } from "path";
+import ENV from "../config/env.config";
 
 class ExpressApp {
   app: Application;
@@ -49,6 +51,11 @@ class ExpressApp {
      */
     this.app.use(express.json());
     // this.app.use(express.urlencoded({ extended: true }));
+
+    /**
+     * serve static file
+     */
+    this.app.use("/images", express.static(join(ENV.UPLOADS_FOLDERS)));
     /**
      * compress the response payload
      */
