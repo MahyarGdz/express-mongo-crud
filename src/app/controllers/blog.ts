@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { BlogService } from "../services/blog.service";
 import BaseController from "../../common/base/controller";
+import { UploadedFile } from "express-fileupload";
 
 class BlogController extends BaseController {
   private static instance: BlogController;
@@ -10,36 +11,42 @@ class BlogController extends BaseController {
   }
 
   static get(): BlogController {
-    if (!this.instance) {
-      this.instance = new BlogController();
+    if (!BlogController.instance) {
+      BlogController.instance = new BlogController();
     }
-    return this.instance;
+    return BlogController.instance;
   }
 
   public async getAll(req: Request, res: Response) {
-    const blogs = await this.blogService.getAll();
-    return this.json({ req, res }, { blogs });
+    const data = await this.blogService.getAll();
+    return this.json({ req, res }, { data });
   }
   public async getOne(req: Request, res: Response) {
     const { id } = req.params;
-    const blog = await this.blogService.getOne(id);
-    return this.json({ req, res }, { blog });
+    const data = await this.blogService.getOne(id);
+    return this.json({ req, res }, { data });
   }
   public async create(req: Request, res: Response) {
     const { body } = req;
-    const msg = await this.blogService.create(body);
-    return this.json({ req, res }, { msg }, 201);
+    const data = await this.blogService.create(body);
+    return this.json({ req, res }, { data }, 201);
   }
   public async update(req: Request, res: Response) {
     const { id } = req.params;
     const payload = req.body;
-    const msg = await this.blogService.update(id, payload);
-    return this.json({ req, res }, { msg });
+    const data = await this.blogService.update(id, payload);
+    return this.json({ req, res }, { data }, 201);
   }
   public async delete(req: Request, res: Response) {
     const { id } = req.params;
-    const msg = await this.blogService.delete(id);
-    return this.json({ req, res }, { msg });
+    const data = await this.blogService.delete(id);
+    return this.json({ req, res }, { data });
+  }
+
+  public async upload(req: Request, res: Response) {
+    const { file } = req;
+    const data = await this.blogService.upload(file as UploadedFile);
+    return this.json({ req, res }, { data });
   }
 }
 

@@ -20,7 +20,7 @@ class Guard {
    *  this method is callback of passport authenticate method that add a user to reqeust object.
    *  if user not exist or any error happend the request will fail with corresponding error message
    */
-  public handleJwt = (req: Request, _res: Response, next: NextFunction) => {
+  private handleJwt = (req: Request, _res: Response, next: NextFunction) => {
     return async (err: Error, admin: IAdmin, info: string | object | JsonWebTokenError | TokenExpiredError) => {
       if (err) {
         return next(new UnauthorizedError("Authentication failed-"));

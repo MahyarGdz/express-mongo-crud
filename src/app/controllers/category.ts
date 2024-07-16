@@ -10,10 +10,10 @@ class CategoryController extends BaseController {
     super();
   }
   static get(): CategoryController {
-    if (!this.instance) {
-      this.instance = new CategoryController();
+    if (!CategoryController.instance) {
+      CategoryController.instance = new CategoryController();
     }
-    return this.instance;
+    return CategoryController.instance;
   }
 
   public async getAll(req: Request, res: Response) {

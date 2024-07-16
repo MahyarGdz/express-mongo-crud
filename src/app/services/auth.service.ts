@@ -21,10 +21,10 @@ class AuthSerivce {
   private roleModel: Model<IRole> = RoleModel;
   private constructor() {}
   static get(): AuthSerivce {
-    if (!this.instance) {
-      this.instance = new AuthSerivce();
+    if (!AuthSerivce.instance) {
+      AuthSerivce.instance = new AuthSerivce();
     }
-    return this.instance;
+    return AuthSerivce.instance;
   }
 
   public async register(data: RegisterDTO) {

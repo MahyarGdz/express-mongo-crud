@@ -9,10 +9,10 @@ class AuthController extends BaseController {
     super();
   }
   static get(): AuthController {
-    if (!this.instance) {
-      this.instance = new AuthController();
+    if (!AuthController.instance) {
+      AuthController.instance = new AuthController();
     }
-    return this.instance;
+    return AuthController.instance;
   }
 
   public async register(req: Request, res: Response) {

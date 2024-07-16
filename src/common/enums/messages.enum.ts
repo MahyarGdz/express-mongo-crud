@@ -5,6 +5,7 @@ export const enum AuhtMessage {
 export const enum CreateMessage {
   AdminCreated = "admin created SuccessFully",
   CategoryCreated = "category created SuccessFully",
+  blogCreated = "blog created SuccessFully",
   Register = "admin created. please wait for approvment!",
 }
 
@@ -26,4 +27,9 @@ export const enum ForbiddenMessage {
 export const enum NotFoundMessage {
   AdminNotFound = "the admin not found by given id",
   CategoryNotFound = "the category not found by given id",
+  BlogNotFound = "the blog not found by given id",
+}
+
+export const enum UploadMessage {
+  NoFileUploaded = "no file were uploaded",
 }
