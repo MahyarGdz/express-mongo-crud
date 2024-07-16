@@ -10,5 +10,6 @@ declare namespace NodeJS {
 
     ADMIN_EMAIL: string;
     ADMIN_PASSWORD: string;
+    UPLOADS_FOLDERS: string;
   }
 }

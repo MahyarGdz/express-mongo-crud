@@ -3,6 +3,7 @@
     "target": "es2022",
     "module": "Node16",
     "lib": ["es2023"],
+    // "typeRoots": ["./src/common/types"],
     "moduleResolution": "Node16",
     "outDir": "dist",
     "experimentalDecorators": true,
@@ -18,5 +19,8 @@
     "strictPropertyInitialization": false,
     "allowSyntheticDefaultImports": true,
     "strictNullChecks": true
+  },
+  "ts-node": {
+    "files": true
   }
 }

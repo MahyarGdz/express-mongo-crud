@@ -48,6 +48,7 @@ class ExpressApp {
      * parse the incoming request body payload
      */
     this.app.use(express.json());
+    // this.app.use(express.urlencoded({ extended: true }));
     /**
      * compress the response payload
      */

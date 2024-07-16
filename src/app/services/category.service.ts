@@ -1,4 +1,4 @@
-import { Model, Types, isValidObjectId } from "mongoose";
+import { Model, isValidObjectId } from "mongoose";
 import { BadRequestError, NotFoundError } from "../../common/types/app.Errors";
 import { ICategory } from "../models/Abstraction/ICategory";
 import category from "../models/category";
@@ -11,10 +11,10 @@ class CategoryService {
   private constructor() {}
 
   static get(): CategoryService {
-    if (!this.instance) {
-      this.instance = new CategoryService();
+    if (!CategoryService.instance) {
+      CategoryService.instance = new CategoryService();
     }
-    return this.instance;
+    return CategoryService.instance;
   }
 
   //get all category
@@ -25,7 +25,7 @@ class CategoryService {
   public async getOne(id: string) {
     if (!isValidObjectId(id)) throw new BadRequestError(BadRequestMessage.ID_IS_NOT_Valid);
 
-    const category = await this.categoryModel.findOne({ _id: new Types.ObjectId(id) });
+    const category = await this.categoryModel.findOne({ _id: id });
     //throw error if category not found
     if (!category) throw new NotFoundError(NotFoundMessage.CategoryNotFound);
     //
@@ -34,10 +34,10 @@ class CategoryService {
 
   //create category
   public async create(data: createCategoryDTO) {
-    const category = await this.categoryModel.create(data);
+    const newCategory = await this.categoryModel.create(data);
     return {
       message: CreateMessage.CategoryCreated,
-      category,
+      newCategory,
     };
   }
   public async update(id: string, payload: Partial<createCategoryDTO>) {

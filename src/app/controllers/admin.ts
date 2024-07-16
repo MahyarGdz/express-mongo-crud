@@ -11,10 +11,10 @@ class AdminController extends BaseController {
   }
 
   static get(): AdminController {
-    if (!this.instance) {
-      this.instance = new AdminController();
+    if (!AdminController.instance) {
+      AdminController.instance = new AdminController();
     }
-    return this.instance;
+    return AdminController.instance;
   }
 
   public async getAll(req: Request, res: Response) {

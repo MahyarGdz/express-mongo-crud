@@ -11,10 +11,10 @@ class TokenService {
   private jwt_token_expire: string = process.env.JWT_TOKEN_EXPIRE || "2";
   private constructor() {}
   static get(): TokenService {
-    if (!this.instance) {
-      this.instance = new TokenService();
+    if (!TokenService.instance) {
+      TokenService.instance = new TokenService();
     }
-    return this.instance;
+    return TokenService.instance;
   }
 
   public generateToken(payload: AuthTokenPayload) {

@@ -22,10 +22,10 @@ class AdminService {
   private constructor() {}
 
   static get(): AdminService {
-    if (!this.instance) {
-      this.instance = new AdminService();
+    if (!AdminService.instance) {
+      AdminService.instance = new AdminService();
     }
-    return this.instance;
+    return AdminService.instance;
   }
   public async getAll() {
     //get all admins
