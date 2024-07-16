@@ -7,6 +7,7 @@ import { IAppOptions } from "../common/interfaces/IAppOptions";
 import { apiRouter } from "./routers/api.routes";
 import { errorHandler, notFoundHandler } from "./handler/app.errorHandler";
 import { Authenticate } from "./utils/authenticate";
+import { customMorganFormat, stream } from "../logging/morgan";
 
 class ExpressApp {
   app: Application;
@@ -55,7 +56,7 @@ class ExpressApp {
     /**
      * log the incomign request
      */
-    this.app.use(morgan("common"));
+    this.app.use(morgan(customMorganFormat, { stream }));
 
     /**
      * check the request origin and response to allowed origin

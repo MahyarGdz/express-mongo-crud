@@ -9,13 +9,13 @@ class CategoryController extends BaseController {
   private constructor() {
     super();
   }
-
   static get(): CategoryController {
     if (!this.instance) {
       this.instance = new CategoryController();
     }
     return this.instance;
   }
+
   public async getAll(req: Request, res: Response) {
     const categories = await this.categoryService.getAll();
     return this.json({ req, res }, categories);

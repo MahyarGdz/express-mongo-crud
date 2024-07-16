@@ -32,7 +32,7 @@ class Guard {
         return next(new BadRequestError(info.message));
       }
       if (info) {
-        return next(new UnauthorizedError("Authentication failed"));
+        return next(new UnauthorizedError("Unauthorized"));
       }
       if (!admin) {
         return next(new UnauthorizedError("user not Authenticated."));

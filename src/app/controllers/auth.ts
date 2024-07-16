@@ -18,12 +18,12 @@ class AuthController extends BaseController {
   public async register(req: Request, res: Response) {
     const { body } = req;
     const msg = await this.authService.register(body);
-    this.json({ req, res }, msg, 201);
+    this.json({ req, res }, { msg }, 201);
   }
   public async login(req: Request, res: Response) {
     const { email, password } = req.body;
     const data = await this.authService.login({ email, password });
-    this.json({ req, res }, data);
+    this.json({ req, res }, { data });
   }
   //   public async logout(req: Request, res: Response) {}
 }

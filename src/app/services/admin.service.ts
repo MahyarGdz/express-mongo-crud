@@ -6,6 +6,7 @@ import { createAdminDTO } from "../DTO/admin/createAdmin.dto";
 import { IRole } from "../models/Abstraction/IRole";
 import role from "../models/role";
 import { RoleEnum } from "../../common/enums/Role.enum";
+import { BadRequestMessage, CreateMessage, NotFoundMessage, UpdateMessage } from "../../common/enums/messages.enum";
 
 class AdminService {
   private static instance: AdminService;
@@ -23,32 +24,74 @@ class AdminService {
     //get all admins
     return await this.adminModel.find({}, { password: 0 });
   }
+
   public async getOne(id: string) {
     //get one admin with its id and send it back to response
-    if (!isValidObjectId(id)) throw new BadRequestError("the id is not valid");
+    if (!isValidObjectId(id)) throw new BadRequestError(BadRequestMessage.ID_IS_NOT_Valid);
+    //we can use lean method also to convert it to js object for result
     const admin = await this.adminModel.findOne({ _id: new Types.ObjectId(id) }, { password: 0 });
-    if (!admin) throw new NotFoundError("the admin not found by given id");
-    return admin;
+    if (!admin) throw new NotFoundError(NotFoundMessage.AdminNotFound);
+    // turn the admin object to js object and omit the extra field from result
+    return admin.toJSON();
   }
-  public async create(admin: createAdminDTO) {
+  /**
+   * @param data
+   *  only super admin can create admin and default new admins are not active
+   */
+  public async create(data: createAdminDTO) {
     //find role to set the default role of admin to visitor
-    const Role = await this.roleModel.findOne({ name: RoleEnum.VISITOR });
-    admin.role = Role?._id as string;
-    admin.isActive = false;
+    const Role = await this.roleModel.findOne({ name: RoleEnum.VISITOR }, { _id: 1 });
 
-    return await this.adminModel.create(admin);
+    data.role = Role?._id?.toString();
+    data.isActive = false;
+
+    const newAdmin = await this.adminModel.create(data);
+    return {
+      message: CreateMessage.AdminCreated,
+      data: {
+        id: newAdmin._id,
+        userName: newAdmin.userName,
+        email: newAdmin.email,
+        adminIsActive: newAdmin.isActive,
+      },
+    };
   }
+  /**
+   *
+   * @param id
+   * @param payload
+   *  update admin by given id . only super admin can request to this endpoint
+   */
   public async update(id: string, payload: Partial<createAdminDTO>) {
-    if (!isValidObjectId(id)) throw new BadRequestError("the id is not valid");
+    // check if id is valid object id
+    if (!isValidObjectId(id)) throw new BadRequestError(BadRequestMessage.ID_IS_NOT_Valid);
+
     const admin = await this.adminModel.findById(id);
-    if (!admin) throw new NotFoundError("the admin not found by given id");
-    return await this.adminModel.updateOne({ _id: new Types.ObjectId(id) }, { $set: payload });
+
+    if (!admin) throw new NotFoundError(NotFoundMessage.AdminNotFound);
+    // const newAdmin = await this.adminModel.updateOne({ _id: new Types.ObjectId(id) }, { $set: payload });
+    // //update admin and return the updated admin document
+    const updatedAdmin = await this.adminModel
+      .findByIdAndUpdate(new Types.ObjectId(id), { $set: payload }, { new: true, projection: { password: 0, __v: 0 } })
+      .lean();
+
+    return {
+      message: UpdateMessage.Updated,
+      updatedAdmin,
+    };
   }
+
   public async delete(id: string) {
-    if (!isValidObjectId(id)) throw new BadRequestError("the id is not valid");
-    const admin = await this.adminModel.findById(id);
-    if (!admin) throw new NotFoundError("the admin not found by given id");
-    return await this.adminModel.deleteOne({ _id: new Types.ObjectId(id) });
+    if (!isValidObjectId(id)) throw new BadRequestError(BadRequestMessage.ID_IS_NOT_Valid);
+
+    const deletedAdmin = await this.adminModel.findOneAndDelete({ _id: new Types.ObjectId(id) }, { projection: { email: 1, userName: 1 } });
+
+    if (!deletedAdmin) throw new NotFoundError(NotFoundMessage.AdminNotFound);
+
+    return {
+      message: "Admin successfully deleted",
+      deletedAdmin,
+    };
   }
 }
 
