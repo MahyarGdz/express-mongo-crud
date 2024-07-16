@@ -5,7 +5,7 @@ import { IAdmin } from "./Abstraction/IAdmin";
 const adminSchema = new Schema<IAdmin>(
   {
     userName: { type: String, unique: true, required: true },
-    email: { type: String, unique: true, required: true },
+    email: { type: String, unique: true, required: [true, "Please add an email"] },
     password: { type: String, minlength: 6, required: true },
     role: { type: Schema.Types.ObjectId, ref: "role", required: true },
     isActive: { type: Boolean, default: false },

@@ -14,6 +14,10 @@ const blogSchema = new Schema<IBlog>(
   { timestamps: true, toJSON: { virtuals: true, versionKey: false }, id: false },
 );
 
+blogSchema.virtual("link").get(function () {
+  return `/api/blogs/${this.slug}`;
+});
+
 blogSchema.pre("save", function (next) {
   this.slug = slugify(this.title, { lower: true });
   next();
@@ -30,17 +34,3 @@ blogSchema
   });
 
 export default model<IBlog>("blog", blogSchema);
-
-// blogSchema.virtual("authorDetails", {
-//   ref: "admin",
-//   localField: "author",
-//   foreignField: "_id",
-//   justOne: true,
-// });
-
-// blogSchema.virtual("categoryDetails", {
-//   ref: "category", // The model to use
-//   localField: "category", // Find in model, where localField
-//   foreignField: "_id", // is equal to foreignField
-//   justOne: true, // Return one document
-// });

@@ -18,10 +18,10 @@ class ExpressApp {
     cors: { origin: true, optionsSuccessStatus: 204, credentials: true },
     rate: {
       message: "Too many requests from this IP, please try again after an hour",
-      windowMs: 5 * 60 * 1000, // 5 minutes
-      max: 60, // Limit each IP to 50 requests per  5
-      standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
-      legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+      windowMs: 5 * 60 * 1000, // 5 min
+      max: 60, // each ip has 60 request per 5 min
+      standardHeaders: true, // `RateLimit-*` headers
+      legacyHeaders: false, // disable the `X-RateLimit-*` headers
     },
   };
 

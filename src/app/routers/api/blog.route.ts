@@ -8,7 +8,9 @@ const router = Router();
 
 router.use(UploadSerive.init());
 router.get("/", asyncWrapper(BlogController.getAll));
-router.get("/:id", asyncWrapper(BlogController.getOne));
+router.get("/:id([0-9a-fA-F]{24})", asyncWrapper(BlogController.getOneById));
+router.get("/:slug", asyncWrapper(BlogController.getOneBySlug));
+router.get("/category/:name", asyncWrapper(BlogController.getByCategory));
 router.post("/upload/:id", Guard.auth(), Guard.can(["create"]), UploadSerive.single("image"), asyncWrapper(BlogController.upload));
 router.post("/", Guard.auth(), Guard.can(["create"]), asyncWrapper(BlogController.create));
 router.patch("/:id", Guard.auth(), Guard.can(["read", "update"]), asyncWrapper(BlogController.update));

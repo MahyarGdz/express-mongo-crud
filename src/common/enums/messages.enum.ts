@@ -29,6 +29,7 @@ export const enum NotFoundMessage {
   AdminNotFound = "the admin not found by given id",
   CategoryNotFound = "the category not found by given id",
   BlogNotFound = "the blog not found by given id",
+  BlogNotFoundBySlug = "the blog not found by given slug",
 }
 
 export const enum UploadMessage {
