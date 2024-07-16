@@ -1,12 +1,19 @@
-import { Model, Types, isValidObjectId } from "mongoose";
-import { BadRequestError, NotFoundError } from "../../common/types/app.Errors";
+import { Model, isValidObjectId } from "mongoose";
+import { BadRequestError, ForbiddenError, NotFoundError } from "../../common/types/app.Errors";
 import { IAdmin } from "../models/Abstraction/IAdmin";
 import admin from "../models/admin";
 import { createAdminDTO } from "../DTO/admin/createAdmin.dto";
 import { IRole } from "../models/Abstraction/IRole";
 import role from "../models/role";
 import { RoleEnum } from "../../common/enums/Role.enum";
-import { BadRequestMessage, CreateMessage, NotFoundMessage, UpdateMessage } from "../../common/enums/messages.enum";
+import {
+  BadRequestMessage,
+  CreateMessage,
+  DeleteMessage,
+  ForbiddenMessage,
+  NotFoundMessage,
+  UpdateMessage,
+} from "../../common/enums/messages.enum";
 
 class AdminService {
   private static instance: AdminService;
@@ -29,7 +36,7 @@ class AdminService {
     //get one admin with its id and send it back to response
     if (!isValidObjectId(id)) throw new BadRequestError(BadRequestMessage.ID_IS_NOT_Valid);
     //we can use lean method also to convert it to js object for result
-    const admin = await this.adminModel.findOne({ _id: new Types.ObjectId(id) }, { password: 0 });
+    const admin = await this.adminModel.findOne({ _id: id }, { password: 0 });
     if (!admin) throw new NotFoundError(NotFoundMessage.AdminNotFound);
     // turn the admin object to js object and omit the extra field from result
     return admin.toJSON();
@@ -72,7 +79,7 @@ class AdminService {
     // const newAdmin = await this.adminModel.updateOne({ _id: new Types.ObjectId(id) }, { $set: payload });
     // //update admin and return the updated admin document
     const updatedAdmin = await this.adminModel
-      .findByIdAndUpdate(new Types.ObjectId(id), { $set: payload }, { new: true, projection: { password: 0, __v: 0 } })
+      .findByIdAndUpdate(id, { $set: payload }, { new: true, projection: { password: 0, __v: 0 } })
       .lean();
 
     return {
@@ -80,16 +87,22 @@ class AdminService {
       updatedAdmin,
     };
   }
-
-  public async delete(id: string) {
+  /**
+   *
+   * @param id
+   * only super admins can request to this endpoint
+   */
+  public async delete(id: string, self: IAdmin) {
     if (!isValidObjectId(id)) throw new BadRequestError(BadRequestMessage.ID_IS_NOT_Valid);
+    //check if admin try to delete it self and throw error
+    if (id == self._id) throw new ForbiddenError(ForbiddenMessage.CanNotDeleteSelf);
 
-    const deletedAdmin = await this.adminModel.findOneAndDelete({ _id: new Types.ObjectId(id) }, { projection: { email: 1, userName: 1 } });
+    const deletedAdmin = await this.adminModel.findOneAndDelete({ _id: id }, { projection: { email: 1, userName: 1 } });
 
     if (!deletedAdmin) throw new NotFoundError(NotFoundMessage.AdminNotFound);
 
     return {
-      message: "Admin successfully deleted",
+      message: DeleteMessage.AdminDelete,
       deletedAdmin,
     };
   }

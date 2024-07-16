@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import BaseController from "../../common/base/controller";
 import { AdminService } from "../services/admin.service";
+import { IAdmin } from "../models/Abstraction/IAdmin";
 
 class AdminController extends BaseController {
   private static instance: AdminController;
@@ -38,7 +39,8 @@ class AdminController extends BaseController {
   }
   public async delete(req: Request, res: Response) {
     const { id } = req.params;
-    const data = await this.adminService.delete(id);
+    const self = req.user as IAdmin;
+    const data = await this.adminService.delete(id, self);
     return this.json({ req, res }, { data });
   }
 }
