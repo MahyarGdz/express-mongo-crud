@@ -19,7 +19,7 @@ class CategoryService {
 
   //get all category
   public async getAll() {
-    return await this.categoryModel.find({});
+    return await this.categoryModel.find();
   }
   //get one doc from the docs with its id
   public async getOne(id: string) {

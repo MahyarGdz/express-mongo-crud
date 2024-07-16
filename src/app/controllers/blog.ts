@@ -21,9 +21,19 @@ class BlogController extends BaseController {
     const data = await this.blogService.getAll();
     return this.json({ req, res }, { data });
   }
-  public async getOne(req: Request, res: Response) {
+  public async getOneById(req: Request, res: Response) {
     const { id } = req.params;
-    const data = await this.blogService.getOne(id);
+    const data = await this.blogService.getOneById(id);
+    return this.json({ req, res }, { data });
+  }
+  public async getOneBySlug(req: Request, res: Response) {
+    const { slug } = req.params;
+    const data = await this.blogService.getOneBySlug(slug);
+    return this.json({ req, res }, { data });
+  }
+  public async getByCategory(req: Request, res: Response) {
+    const { name } = req.params;
+    const data = await this.blogService.getByCategory(name);
     return this.json({ req, res }, { data });
   }
   public async create(req: Request, res: Response) {

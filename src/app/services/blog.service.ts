@@ -30,7 +30,7 @@ class BlogService {
   public async getAll() {
     return await this.blogModel.find({});
   }
-  public async getOne(id: string) {
+  public async getOneById(id: string) {
     //check if id is valid object id
     if (!isValidObjectId(id)) throw new BadRequestError(BadRequestMessage.ID_IS_NOT_Valid);
 
@@ -39,6 +39,64 @@ class BlogService {
     if (!blog) throw new NotFoundError(NotFoundMessage.BlogNotFound);
     //
     return blog.toJSON();
+  }
+  public async getOneBySlug(slug: string) {
+    const blog = await this.blogModel.findOne({ slug });
+    //throw error if category not found
+    if (!blog) throw new NotFoundError(NotFoundMessage.BlogNotFoundBySlug);
+    //
+    return blog.toJSON();
+  }
+  //find all blogs based on category
+  public async getByCategory(name: string) {
+    console.log(name);
+    const blog = await this.blogModel.aggregate([
+      {
+        $lookup: {
+          from: "categories",
+          localField: "category",
+          foreignField: "_id",
+          as: "category",
+        },
+      },
+      {
+        $lookup: {
+          from: "admins",
+          localField: "author",
+          foreignField: "_id",
+          as: "author",
+        },
+      },
+      {
+        $unwind: "$category",
+      },
+      {
+        $unwind: "$author",
+      },
+      {
+        $addFields: {
+          categoryName: "$category.name",
+          authorName: "$author.userName",
+        },
+      },
+      {
+        $project: {
+          author: 0,
+          category: 0,
+          __v: 0,
+        },
+      },
+      {
+        $match: {
+          categoryName: name,
+        },
+      },
+    ]);
+
+    //throw error if category not found
+    if (!blog) throw new NotFoundError(NotFoundMessage.BlogNotFoundBySlug);
+    //
+    return blog;
   }
   //create blog and only admin with needed permission can create blog
   public async create(data: createBlogDTO) {
