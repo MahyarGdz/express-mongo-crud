@@ -12,6 +12,7 @@ export const enum CreateMessage {
 export const enum UpdateMessage {
   Updated = "admin updated successfuly",
   CategoryUpdated = "category updated successfuly",
+  BlogUpdated = "blog updated successfuly",
 }
 export const enum DeleteMessage {
   AdminDelete = "Admin deleted successfully ",
@@ -32,4 +33,5 @@ export const enum NotFoundMessage {
 
 export const enum UploadMessage {
   NoFileUploaded = "no file were uploaded",
+  FileUpload = "file uploaded successfully",
 }

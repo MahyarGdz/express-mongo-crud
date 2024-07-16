@@ -45,7 +45,8 @@ class BlogController extends BaseController {
 
   public async upload(req: Request, res: Response) {
     const { file } = req;
-    const data = await this.blogService.upload(file as UploadedFile);
+    const { id } = req.params;
+    const data = await this.blogService.upload(file as UploadedFile, id);
     return this.json({ req, res }, { data });
   }
 }

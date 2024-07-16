@@ -43,7 +43,7 @@ class CategoryService {
   public async update(id: string, payload: Partial<createCategoryDTO>) {
     //check is id is valid
     if (!isValidObjectId(id)) throw new BadRequestError(BadRequestMessage.ID_IS_NOT_Valid);
-    //find and update with id and if return null throw and not found error
+    //find and update with id and if return null throw not found error
     const updatedCategory = await this.categoryModel.findByIdAndUpdate({ _id: id }, { $set: payload }, { new: true });
 
     if (!updatedCategory) throw new NotFoundError(NotFoundMessage.CategoryNotFound);
