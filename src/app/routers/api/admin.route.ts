@@ -9,5 +9,6 @@ router.get("/", Guard.auth(), Guard.can(["read"]), asyncWrapper(AdminController.
 router.get("/:id", Guard.auth(), Guard.can(["read"]), asyncWrapper(AdminController.getOne));
 router.post("/", Guard.auth(), Guard.can(["create"]), asyncWrapper(AdminController.create));
 router.patch("/:id", Guard.auth(), Guard.can(["create", "update"]), asyncWrapper(AdminController.update));
+router.delete("/:id", Guard.auth(), Guard.can(["create", "delete"]), asyncWrapper(AdminController.delete));
 
 export { router as adminRouter };

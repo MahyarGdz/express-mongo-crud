@@ -17,29 +17,29 @@ class AdminController extends BaseController {
   }
 
   public async getAll(req: Request, res: Response) {
-    const admins = await this.adminService.getAll();
-    return this.json({ req, res }, admins);
+    const data = await this.adminService.getAll();
+    return this.json({ req, res }, { data });
   }
   public async getOne(req: Request, res: Response) {
     const { id } = req.params;
-    const admin = await this.adminService.getOne(id);
-    return this.json({ req, res }, admin);
+    const data = await this.adminService.getOne(id);
+    return this.json({ req, res }, { data });
   }
   public async create(req: Request, res: Response) {
     const { body } = req;
     const msg = await this.adminService.create(body);
-    return this.json({ req, res }, msg, 201);
+    return this.json({ req, res }, { msg }, 201);
   }
   public async update(req: Request, res: Response) {
     const { id } = req.params;
     const payload = req.body;
-    const msg = await this.adminService.update(id, payload);
-    return this.json({ req, res }, msg, 201);
+    const data = await this.adminService.update(id, payload);
+    return this.json({ req, res }, { data }, 201);
   }
   public async delete(req: Request, res: Response) {
     const { id } = req.params;
-    const msg = await this.adminService.delete(id);
-    return this.json({ req, res }, msg);
+    const data = await this.adminService.delete(id);
+    return this.json({ req, res }, { data });
   }
 }
 

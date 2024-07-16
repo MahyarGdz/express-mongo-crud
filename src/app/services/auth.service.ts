@@ -11,6 +11,7 @@ import { BadRequestError } from "../../common/types/app.Errors";
 import { AuthTokenPayload } from "../../common/types/tokenPayload";
 import { VerifiedCallback } from "passport-jwt";
 import { Logger } from "../../logging/logger";
+import { AuhtMessage, CreateMessage } from "../../common/enums/messages.enum";
 
 class AuthSerivce {
   private static instance: AuthSerivce;
@@ -46,23 +47,27 @@ class AuthSerivce {
 
     await newAdmin.save();
     return {
-      message: "admin created. please wait for approvment!",
-      newAdmin,
+      message: CreateMessage.Register,
+      data: {
+        userName: newAdmin.userName,
+        email: newAdmin.email,
+        adminIsActive: newAdmin.isActive,
+      },
     };
   }
 
   public async login(data: LoginDto) {
     const admin = await this.adminModel.findOne({ email: data.email });
-    if (!admin || !admin.comparePassword(data.password)) throw new BadRequestError("email or password is incorrect");
+    if (!admin || !admin.comparePassword(data.password)) throw new BadRequestError(AuhtMessage.IncorrectMessage);
 
     const passMatch = await admin.comparePassword(data.password);
 
-    if (!passMatch) throw new BadRequestError("email or password is incorrect");
+    if (!passMatch) throw new BadRequestError(AuhtMessage.IncorrectMessage);
 
     const token = this.tokenService.generateToken({ sub: admin._id as string });
 
     return {
-      message: "login successfully!",
+      message: AuhtMessage.LoginSuccessfull,
       token,
     };
   }

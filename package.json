@@ -8,7 +8,7 @@
     "build": "tsc -p tsconfig.build.json",
     "start": "NODE_ENV=production node --trace-warnings dist/server.js",
     "dev": "nodemon",
-    "lint": "eslint . --ext.ts",
+    "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
     "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\"",
     "create:Admin": "node -r ts-node/register --env-file=.env script/createDefaultAdmin.ts",
