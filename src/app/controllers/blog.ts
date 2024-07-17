@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { BlogService } from "../services/blog.service";
 import BaseController from "../../common/base/controller";
 import { UploadedFile } from "express-fileupload";
+import { IAdmin } from "../models/Abstraction/IAdmin";
 
 class BlogController extends BaseController {
   private static instance: BlogController;
@@ -37,8 +38,9 @@ class BlogController extends BaseController {
     return this.json({ req, res }, { data });
   }
   public async create(req: Request, res: Response) {
-    const { body } = req;
-    const data = await this.blogService.create(body);
+    const admin = req.user as IAdmin;
+    const { title, content, category } = req.body;
+    const data = await this.blogService.create({ title, content, category, author: admin._id as string });
     return this.json({ req, res }, { data }, 201);
   }
   public async update(req: Request, res: Response) {

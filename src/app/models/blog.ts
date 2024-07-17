@@ -6,7 +6,7 @@ const blogSchema = new Schema<IBlog>(
   {
     title: { type: String, required: [true, "please send name"], maxlength: [20, "title can not be more than 20 char"] },
     slug: { type: String },
-    content: { type: String, required: [true, "please fill content"], maxlength: [500, "title can not be more than 20 char"] },
+    content: { type: String, required: [true, "please fill content"] },
     imageUrl: { type: String, default: `/images/default.jpg` },
     category: { type: Schema.Types.ObjectId, ref: "category", required: [true, "please send categoryID"] },
     author: { type: Schema.Types.ObjectId, ref: "admin", required: [true, "please send auhtorID"] },
@@ -20,6 +20,16 @@ blogSchema.virtual("link").get(function () {
 
 blogSchema.pre("save", function (next) {
   this.slug = slugify(this.title, { lower: true });
+  next();
+});
+
+blogSchema.pre("findOneAndUpdate", function (next) {
+  const update = this.getUpdate() as IBlog;
+  const payload = update.$set as { [k: string]: any };
+
+  if (payload.title) {
+    payload.slug = slugify(payload.title, { lower: true });
+  }
   next();
 });
 // populate both author and category details

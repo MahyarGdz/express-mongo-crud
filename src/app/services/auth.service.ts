@@ -52,13 +52,15 @@ class AuthSerivce {
         userName: newAdmin.userName,
         email: newAdmin.email,
         adminIsActive: newAdmin.isActive,
+        role: adminRole.name,
+        permission: adminRole.permissions.join(","),
       },
     };
   }
 
   public async login(data: LoginDto) {
     const admin = await this.adminModel.findOne({ email: data.email });
-    if (!admin || !admin.comparePassword(data.password)) throw new BadRequestError(AuhtMessage.IncorrectMessage);
+    if (!admin) throw new BadRequestError(AuhtMessage.IncorrectMessage);
 
     const passMatch = await admin.comparePassword(data.password);
 

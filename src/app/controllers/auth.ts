@@ -16,8 +16,8 @@ class AuthController extends BaseController {
   }
 
   public async register(req: Request, res: Response) {
-    const { body } = req;
-    const msg = await this.authService.register(body);
+    const { email, userName, password } = req.body;
+    const msg = await this.authService.register({ email, userName, password });
     this.json({ req, res }, { msg }, 201);
   }
   public async login(req: Request, res: Response) {

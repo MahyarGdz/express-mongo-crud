@@ -73,14 +73,16 @@ class AdminService {
     // check if id is valid object id
     if (!isValidObjectId(id)) throw new BadRequestError(BadRequestMessage.ID_IS_NOT_Valid);
 
-    const admin = await this.adminModel.findById(id);
+    if (payload.role) {
+      const role = await this.roleModel.findOne({ name: payload.role });
+      if (!role) throw new BadRequestError(BadRequestMessage.RoleNotFound);
+      payload.role = role?._id as string;
+    }
 
-    if (!admin) throw new NotFoundError(NotFoundMessage.AdminNotFound);
-    // const newAdmin = await this.adminModel.updateOne({ _id: new Types.ObjectId(id) }, { $set: payload });
     // //update admin and return the updated admin document
-    const updatedAdmin = await this.adminModel
-      .findByIdAndUpdate(id, { $set: payload }, { new: true, projection: { password: 0, __v: 0 } })
-      .lean();
+    const updatedAdmin = await this.adminModel.findByIdAndUpdate(id, payload, { new: true, projection: { password: 0, __v: 0 } });
+    //fail if upadted admin was null
+    if (!updatedAdmin) throw new NotFoundError(NotFoundMessage.AdminNotFound);
 
     return {
       message: UpdateMessage.Updated,

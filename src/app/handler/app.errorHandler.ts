@@ -13,7 +13,17 @@ function errorHandler(err: Error, req: Request, res: Response, _next: NextFuncti
   res.on("finish", () => {
     logger.error(`[${req.ip}] - ${req.method} ${req.path} - ${res.statusCode}`, { ...err, stack: err.stack });
   });
-
+  // const message =
+  // err instanceof ApiError
+  //   ? err.message
+  //   : err instanceof Mongoose.Error.ValidationError
+  //     ? "Validation Error: " +
+  //       Object.values(err.errors)
+  //         .map((error: any) => error.message)
+  //         .join(", ")
+  //     : err.message.includes("E11000")
+  //       ? "The field you sent is exist"
+  //       : "somthing went wrong please try again later",
   const message = err instanceof ApiError ? err.message : "somthing went wrong please try again later",
     code = err instanceof ApiError ? err.code : 500,
     details = err instanceof ApiError ? err.details : [],

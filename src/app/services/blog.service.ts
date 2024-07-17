@@ -27,29 +27,32 @@ class BlogService {
     }
     return BlogService.instance;
   }
+  //get all blogs
   public async getAll() {
     return await this.blogModel.find({});
   }
+  //get blog by id
   public async getOneById(id: string) {
     //check if id is valid object id
     if (!isValidObjectId(id)) throw new BadRequestError(BadRequestMessage.ID_IS_NOT_Valid);
 
     const blog = await this.blogModel.findOne({ _id: id });
-    //throw error if category not found
+    //throw error if blog not found
     if (!blog) throw new NotFoundError(NotFoundMessage.BlogNotFound);
-    //
+
     return blog.toJSON();
   }
+  //
   public async getOneBySlug(slug: string) {
     const blog = await this.blogModel.findOne({ slug });
-    //throw error if category not found
+    //throw error if blog not found
     if (!blog) throw new NotFoundError(NotFoundMessage.BlogNotFoundBySlug);
     //
     return blog.toJSON();
   }
   //find all blogs based on category
-  public async getByCategory(name: string) {
-    console.log(name);
+  public async getByCategory(slug: string) {
+    console.log(slug);
     const blog = await this.blogModel.aggregate([
       {
         $lookup: {
@@ -75,7 +78,7 @@ class BlogService {
       },
       {
         $addFields: {
-          categoryName: "$category.name",
+          categorySlug: "$category.slug",
           authorName: "$author.userName",
         },
       },
@@ -88,13 +91,13 @@ class BlogService {
       },
       {
         $match: {
-          categoryName: name,
+          categorySlug: slug,
         },
       },
     ]);
 
-    //throw error if category not found
-    if (!blog) throw new NotFoundError(NotFoundMessage.BlogNotFoundBySlug);
+    //throw error if blog not found
+    // if (blog.length === 0) throw new NotFoundError(NotFoundMessage.BlogNotFoundByCategor);
     //
     return blog;
   }
@@ -111,7 +114,7 @@ class BlogService {
     //check if id is valid object id
     if (!isValidObjectId(id)) throw new BadRequestError(BadRequestMessage.ID_IS_NOT_Valid);
     //find and update with id and if return null, throw  not found error
-    const updatedBlog = await this.blogModel.findByIdAndUpdate({ _id: id }, { $set: payload }, { new: true });
+    const updatedBlog = await this.blogModel.findOneAndUpdate({ _id: id }, { $set: payload }, { new: true });
 
     if (!updatedBlog) throw new NotFoundError(NotFoundMessage.BlogNotFound);
 
