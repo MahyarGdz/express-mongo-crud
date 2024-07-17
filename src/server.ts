@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+import { config } from "dotenv";
+config();
 import { Application } from "./app";
 import ENV from "./config/env.config";
 import { Logger } from "./logging/logger";

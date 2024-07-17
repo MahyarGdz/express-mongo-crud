@@ -1,11 +1,13 @@
 import mongoose from "mongoose";
+import { config } from "dotenv";
+config();
 import slugify from "slugify";
-import Blog from "../src/app/models/blog";
-import Category from "../src/app/models/category";
-import Admin from "../src/app/models/admin";
+import Blog from "../app/models/blog";
+import Category from "../app/models/category";
+import Admin from "../app/models/admin";
 
 // Ensure the `Role` model is registered
-import Role from "../src/app/models/role";
+import Role from "../app/models/role";
 console.log(Role);
 
 const mongoUri = process.env.MONGO_URI as string;
@@ -15,11 +17,9 @@ const seedDatabase = async () => {
     await mongoose.connect(mongoUri);
     console.log("Connected to MongoDB");
 
-    // Clear existing data
     await Blog.deleteMany({});
     await Category.deleteMany({});
 
-    // Create Categories
     const categories = [
       { name: "JavaScript", description: "All about JavaScript", slug: "javascript" },
       { name: "Python", description: "All about Python", slug: "python" },
@@ -117,6 +117,7 @@ const seedDatabase = async () => {
 
     process.exit(0);
   } catch (error) {
+    mongoose.connection.close();
     console.error("Error seeding database:", error);
     process.exit(1);
   }

@@ -4,15 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "prebuild": "rimraf build",
+    "prebuild": "rimraf /dist",
     "build": "tsc -p tsconfig.build.json",
     "start": "NODE_ENV=production node --trace-warnings dist/server.js",
     "dev": "nodemon",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
     "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\"",
-    "seed": "node -r ts-node/register --env-file=.env script/seed.ts",
-    "prepare": "./.husky/install.mjs || true"
+    "populate:admin": "node dist/script/createDefaultAdmin.js",
+    "seed": "node dist/script/seed.js",
+    "prepare": "husky || true"
   },
   "keywords": [],
   "lint-staged": {
@@ -30,6 +31,7 @@
     "bcrypt": "^5.1.1",
     "compression": "^1.7.4",
     "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "express-fileupload": "^1.5.1",
     "express-rate-limit": "^7.3.1",
