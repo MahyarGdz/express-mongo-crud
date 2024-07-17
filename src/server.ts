@@ -12,7 +12,7 @@ async function bootStrap() {
     await mongoose.connect(ENV.MONGO_URI, { serverSelectionTimeoutMS: 2000 });
     logger.info("connected to mongodb", "Database");
     //
-    Application.listen(4000, () => {
+    Application.listen(ENV.PORT, () => {
       logger.info(`server is start and listen on http://localhost:${ENV.PORT}`);
     });
   } catch (error) {
