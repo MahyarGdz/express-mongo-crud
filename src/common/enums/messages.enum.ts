@@ -31,7 +31,7 @@ export const enum NotFoundMessage {
   CategoryNotFound = "the category not found by given id",
   BlogNotFound = "the blog not found by given id",
   BlogNotFoundBySlug = "the blog not found by given slug",
-  BlogNotFoundByCategor = "the blogs not found by given category",
+  BlogNotFoundByCategor = "blogs not found by given category",
 }
 
 export const enum UploadMessage {

@@ -6,27 +6,33 @@ import mongoose from "mongoose";
 const createDefaultAdmin = async () => {
   try {
     await mongoose.connect(process.env.MONGO_URI as string);
-    let adminRole = await Role.findOne({ name: RoleEnum.SUPER_ADMIN });
 
-    if (!adminRole) {
-      adminRole = new Role({
-        name: RoleEnum.SUPER_ADMIN,
-        permissions: ["create", "read", "update", "delete"],
-      });
-      await adminRole.save();
-      console.log("Super Admin role created");
-    } else {
-      console.log("Super Admin role already exists");
+    const roles = [
+      { name: RoleEnum.SUPER_ADMIN, permissions: ["create", "read", "update", "delete"] },
+      { name: RoleEnum.EDITOR, permissions: ["read", "update"] },
+      { name: RoleEnum.VISITOR, permissions: ["read"] },
+    ];
+
+    for (const roleData of roles) {
+      let role = await Role.findOne({ name: roleData.name });
+      if (!role) {
+        role = new Role(roleData);
+        await role.save();
+        console.log(`${roleData.name} role created`);
+      } else {
+        console.log(`${roleData.name} role already exists`);
+      }
     }
 
     const adminExists = await Admin.findOne({ email: process.env.ADMIN_EMAIL });
+    const superAdminRole = await Role.findOne({ name: RoleEnum.SUPER_ADMIN });
 
     if (!adminExists) {
       const newAdmin = new Admin({
         userName: "defaultAdmin",
         email: process.env.ADMIN_EMAIL,
         password: process.env.ADMIN_PASSWORD,
-        role: adminRole._id,
+        role: superAdminRole?._id,
         isActive: true,
       });
 

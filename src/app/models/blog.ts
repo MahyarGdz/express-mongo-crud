@@ -4,7 +4,7 @@ import slugify from "slugify";
 
 const blogSchema = new Schema<IBlog>(
   {
-    title: { type: String, required: [true, "please send name"], maxlength: [20, "title can not be more than 20 char"] },
+    title: { type: String, required: [true, "please send name"], minlength: [4, "title can not be less than 4 char"] },
     slug: { type: String },
     content: { type: String, required: [true, "please fill content"] },
     imageUrl: { type: String, default: `/images/default.jpg` },
