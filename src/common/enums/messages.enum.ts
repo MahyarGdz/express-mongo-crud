@@ -20,6 +20,7 @@ export const enum DeleteMessage {
 }
 export const enum BadRequestMessage {
   ID_IS_NOT_Valid = "The id is not valid",
+  RoleNotFound = "role is incorrect",
 }
 export const enum ForbiddenMessage {
   CanNotDeleteSelf = "can not delete your self",
@@ -30,6 +31,7 @@ export const enum NotFoundMessage {
   CategoryNotFound = "the category not found by given id",
   BlogNotFound = "the blog not found by given id",
   BlogNotFoundBySlug = "the blog not found by given slug",
+  BlogNotFoundByCategor = "the blogs not found by given category",
 }
 
 export const enum UploadMessage {

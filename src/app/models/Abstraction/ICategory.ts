@@ -3,5 +3,5 @@ import { Document } from "mongoose";
 export interface ICategory extends Document {
   name: string;
   description: string;
-  // url: string;
+  slug: string;
 }
