@@ -1,0 +1,421 @@
+{
+  "info": {
+    "_postman_id": "768781d8-0ea9-4e87-898e-00002f10ebd7",
+    "name": "express-Mongo-crud",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "26932842"
+  },
+  "item": [
+    {
+      "name": "blogs",
+      "item": [
+        {
+          "name": "getAll",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{Base_url}}/api/blogs",
+              "host": ["{{Base_url}}"],
+              "path": ["api", "blogs"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "getByCategory",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{Base_url}}/api/blogs/category/javascript",
+              "host": ["{{Base_url}}"],
+              "path": ["api", "blogs", "category", "javascript"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "getOneBySlug",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "image",
+                  "type": "file",
+                  "src": "/home/mahyar/Pictures/_02a8412e-2140-49f0-a8bb-83f350ef7785.jpeg"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{Base_url}}/api/blogs/test-blogs",
+              "host": ["{{Base_url}}"],
+              "path": ["api", "blogs", "test-blogs"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "getById",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{Base_url}}/api/blogs/6696b3a178c2754518d9f1dc",
+              "host": ["{{Base_url}}"],
+              "path": ["api", "blogs", "6696b3a178c2754518d9f1dc"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "create",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\":\"TEST javascript blog\",\n  \"content\": \"ssalam in ye bloge test  mibashasd man  ssalam in ye bloge test  mibashasd manssalam in ye bloge test  mibashasd man \",\n  \"category\": \"6697186f3c9f270b506384b8\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{Base_url}}/api/blogs",
+              "host": ["{{Base_url}}"],
+              "path": ["api", "blogs"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"content\": \"ssalam in ye bloge test mibashad ke update shode asts\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{Base_url}}/api/blogs/6697192b1f617457a2c68033",
+              "host": ["{{Base_url}}"],
+              "path": ["api", "blogs", "6697192b1f617457a2c68033"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{Base_url}}/api/blogs/6697192b1f617457a2c68033",
+              "host": ["{{Base_url}}"],
+              "path": ["api", "blogs", "6697192b1f617457a2c68033"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "upload",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "image",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{Base_url}}/api/blogs/upload/6696b3a178c2754518d9f1dc",
+              "host": ["{{Base_url}}"],
+              "path": ["api", "blogs", "upload", "6696b3a178c2754518d9f1dc"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "admins",
+      "item": [
+        {
+          "name": "getAll",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{Base_url}}/api/admins",
+              "host": ["{{Base_url}}"],
+              "path": ["api", "admins"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "getOneById",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{Base_url}}/api/admins/669586eb560778ce47b85c77",
+              "host": ["{{Base_url}}"],
+              "path": ["api", "admins", "669586eb560778ce47b85c77"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "create",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"userName\":\"mahyar2\",\n    \"email\":\"me@g2.com\",\n    \"password\":\"123456\",\n    \"role\":\"superAdmin\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{Base_url}}/api/admins",
+              "host": ["{{Base_url}}"],
+              "path": ["api", "admins"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"userName\":\"mahyarTest\",\n    \"isActive\":true,\n    \"role\":\"visitor\",\n    \"password\":\"123456\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{Base_url}}/api/admins/669586eb560778ce47b85c77",
+              "host": ["{{Base_url}}"],
+              "path": ["api", "admins", "669586eb560778ce47b85c77"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{Base_url}}/api/admins/66967d6989269995f4ae87c5",
+              "host": ["{{Base_url}}"],
+              "path": ["api", "admins", "66967d6989269995f4ae87c5"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "categories",
+      "item": [
+        {
+          "name": "getAll",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{Base_url}}/api/categories",
+              "host": ["{{Base_url}}"],
+              "path": ["api", "categories"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "getOneByID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{Base_url}}/api/categories/6697186f3c9f270b506384b8",
+              "host": ["{{Base_url}}"],
+              "path": ["api", "categories", "6697186f3c9f270b506384b8"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "create",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\":\"machine learning\",\n    \"description\":\"salam test description\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{Base_url}}/api/categories",
+              "host": ["{{Base_url}}"],
+              "path": ["api", "categories"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\":\"machine learning1\"\n\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{Base_url}}/api/categories/669719951f617457a2c68055",
+              "host": ["{{Base_url}}"],
+              "path": ["api", "categories", "669719951f617457a2c68055"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{Base_url}}/api/categories/669719951f617457a2c68055",
+              "host": ["{{Base_url}}"],
+              "path": ["api", "categories", "669719951f617457a2c68055"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "auth",
+      "item": [
+        {
+          "name": "register",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"userName\":\"mahyarTest2\",\n    \"email\":\"me@gmail.com\",\n    \"password\":\"123456\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{Base_url}}/api/auth/register",
+              "host": ["{{Base_url}}"],
+              "path": ["api", "auth", "register"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "login",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\":\"default@gmail.com\",\n    \"password\":\"aghwegfwvcwehfeo\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{Base_url}}/api/auth/login",
+              "host": ["{{Base_url}}"],
+              "path": ["api", "auth", "login"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2Njk2ODNmNzY1OGMyYjEwZjkzOTk4MmEiLCJpYXQiOjE3MjExNzQ4MjIsImV4cCI6MTcyMTE4MjAyMn0.-z8EGrpxc5bY4ulQvix-B-GEwZmfGlsuUjlad7cEHIU",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "id",
+      "value": "1"
+    },
+    {
+      "key": "base_url",
+      "value": "https://postman-rest-api-learner.glitch.me/"
+    }
+  ]
+}

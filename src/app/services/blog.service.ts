@@ -97,7 +97,7 @@ class BlogService {
     ]);
 
     //throw error if blog not found
-    // if (blog.length === 0) throw new NotFoundError(NotFoundMessage.BlogNotFoundByCategor);
+    if (blog.length === 0) throw new NotFoundError(NotFoundMessage.BlogNotFoundByCategor);
     //
     return blog;
   }

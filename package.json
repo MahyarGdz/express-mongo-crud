@@ -11,7 +11,6 @@
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
     "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\"",
-    "create:Admin": "node -r ts-node/register --env-file=.env script/createDefaultAdmin.ts",
     "seed": "node -r ts-node/register --env-file=.env script/seed.ts",
     "prepare": "./.husky/install.mjs || true"
   },
