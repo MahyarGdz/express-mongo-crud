@@ -18,7 +18,16 @@ copy .env and fill it
 ```bash
   cp .env.example .env
 ```
+dont forget to set these enviroment varibles.if you use docker u can edit these enviroment in docker.env
 
+```
+MONGO_URI="<mongo_uri>
+JWT_SECRET=<secret>
+#expire time is in hours
+JWT_TOKEN_EXPIRE=2
+ADMIN_PASSWORD=<your-admin-Pass>
+ADMIN_EMAIL=<your-admin-email>
+```
 use can simply run the project with docker with one command in rootdir
 
 ```bash
@@ -71,16 +80,7 @@ or u can use without build the src and use ts-node
 pnpm run dev
 ```
 
-dont forget to set these enviroment varibles.if you use docker u can edit these enviroment in docker.env
 
-```
-MONGO_URI="<mongo_uri>
-JWT_SECRET=<secret>
-#expire time is in hours
-JWT_TOKEN_EXPIRE=2
-ADMIN_PASSWORD=<your-admin-Pass>
-ADMIN_EMAIL=<your-admin-email>
-```
 
 ## HTTP API Endpoints document
 
