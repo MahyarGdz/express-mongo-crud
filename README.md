@@ -31,6 +31,18 @@ next time just use
   docker compose up
 ```
 
+if you want to run it in detached mode just use
+
+```bash
+  docker compose up -d
+```
+
+and then use docker log to see the logs of cantainer
+
+```bash
+  docker logs <containerId> -f
+```
+
 ## Installation with npm
 
 enable corepack and install pnpm
