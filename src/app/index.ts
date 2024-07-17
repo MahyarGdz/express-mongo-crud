@@ -55,6 +55,7 @@ class ExpressApp {
     /**
      * serve static file
      */
+
     this.app.use("/images", express.static(join(ENV.UPLOADS_FOLDERS)));
     /**
      * compress the response payload

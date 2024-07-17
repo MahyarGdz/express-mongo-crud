@@ -1,7 +1,9 @@
-import Admin from "../src/app/models/admin";
-import Role from "../src/app/models/role";
-import { RoleEnum } from "../src/common/enums/Role.enum";
 import mongoose from "mongoose";
+import { config } from "dotenv";
+config();
+import { RoleEnum } from "../common/enums/Role.enum";
+import Role from "../app/models/role";
+import Admin from "../app/models/admin";
 
 const createDefaultAdmin = async () => {
   try {
@@ -41,11 +43,11 @@ const createDefaultAdmin = async () => {
     } else {
       console.log("Default admin was created before");
     }
-  } catch (err) {
-    console.error("Error creating default admin:", err);
-  } finally {
-    mongoose.connection.close();
     process.exit(0);
+  } catch (err) {
+    mongoose.connection.close();
+    console.error("Error creating default admin:", err);
+    process.exit(1);
   }
 };
 

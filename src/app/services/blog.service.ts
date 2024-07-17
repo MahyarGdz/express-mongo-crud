@@ -3,7 +3,7 @@ import { extname } from "path";
 import { randomBytes } from "crypto";
 import { IBlog } from "../models/Abstraction/IBlog";
 import blog from "../models/blog";
-import { BadRequestError, InternalError, NotFoundError } from "../../common/types/app.Errors";
+import { BadRequestError, NotFoundError } from "../../common/types/app.Errors";
 import { createBlogDTO } from "../DTO/blog/createBlog.dto";
 import { UploadedFile } from "express-fileupload";
 import ENV from "../../config/env.config";
@@ -147,14 +147,13 @@ class BlogService {
     if (!blog) throw new NotFoundError(NotFoundMessage.BlogNotFound);
     //create a file name for the uploaded file
     const fileName = `${randomBytes(10).toString("hex")}-${blogId}${extname(file.name)}`;
-    file.mv(`${process.cwd()}/${ENV.UPLOADS_FOLDERS}${fileName}`, async (err) => {
-      if (err) throw new InternalError(["problem with uploading file"]);
 
-      blog = await this.blogModel.findByIdAndUpdate(blogId, { imageUrl: `/images/${fileName}` });
-    });
+    await file.mv(`${process.cwd()}/${ENV.UPLOADS_FOLDERS}${fileName}`);
+
+    blog = await this.blogModel.findByIdAndUpdate(blogId, { imageUrl: `/images/${fileName}` }, { new: true });
     return {
       message: UploadMessage.FileUpload,
-      link: blog.imageUrl,
+      link: blog?.imageUrl,
     };
   }
 }

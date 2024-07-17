@@ -13,7 +13,7 @@ class UploadSerive {
     tempFileDir: "./tmp/",
     abortOnLimit: true,
     // responseOnLimit:
-    // createParentPath,
+    createParentPath: true,
   };
   private constructor() {}
   static get(): UploadSerive {
